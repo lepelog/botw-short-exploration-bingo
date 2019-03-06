@@ -1,6 +1,6 @@
-function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal"}) {
+function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:"name"}) {
 
-	var LANG = 'name';
+	var LANG = options.lang;
 	var SEED = options.seed;
 	var MODE = options.mode;
 
@@ -139,10 +139,6 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal"}) {
 		var getDifficulty = bingoBoard[i].difficulty - 1; // difficulty of current square
 		// check if difficulty was there before, causing duplication issues (maybe)
 		var prevIndex = bingoBoard.slice(1,i).findIndex(b=>b.difficulty==(getDifficulty+1))+1;
-		console.log(prevIndex);
-		if (prevIndex>0) {
-			console.log(bingoBoard[prevIndex].name);
-		}
 		var RNG = Math.floor(bingoList[getDifficulty].length * Math.random());
 		if (RNG == bingoList[getDifficulty].length) { RNG--; } //fix a miracle
 		var j = 0, synergy = 0, currentObj = null, minSynObj = null;
@@ -177,7 +173,7 @@ var bingo = function(bingoList, size) {
 			 return "";
 		return results[1];
 	}
-	var LANG = 'name';
+	var LANG = gup('lang') || 'name';
 	var SEED = gup("seed");
 	var MODE = gup("mode");
 	var EXPLORATION = gup("exploration");
@@ -194,8 +190,12 @@ var bingo = function(bingoList, size) {
 
 	Math.seedrandom(SEED); //sets up the RNG
 	var MAX_SEED = 999999; //1 million cards
+
+	var qSeed = "?seed=" + SEED;
+	var qMode = (MODE == "short" || MODE == "long") ? "&mode=" + MODE : "";
+	var qEx = EXPLORATION ? '&exploration=1':'';
 	var results = $("#results");
-	results.append ("<p>BotW Bingo <strong>v1</strong>&emsp;Seed: <strong>" +
+	results.append ('<a href="'+qSeed+qMode+qEx+'"><img src="img/en.png" alt="English"></a><a href="'+qSeed+qMode+qEx+'&lang=jp"><img src="img/jp.png" alt="Japanese"></a><p>BotW Bingo <strong>v1</strong>&emsp;Seed: <strong>' +
 		SEED + "</strong>&emsp;Card type: <strong>" + cardtype + "</strong></p>")
 
 	$('.popout').click(function() {
@@ -259,7 +259,7 @@ var bingo = function(bingoList, size) {
 	$("#tlbr").hover(function() { $(".tlbr").addClass("hover"); }, function() {	$(".tlbr").removeClass("hover"); });
 	$("#bltr").hover(function() { $(".bltr").addClass("hover"); }, function() {	$(".bltr").removeClass("hover"); });
 
-	var bingoBoard = getBingoBoard(bingoList, size, {seed: SEED, mode: MODE});
+	var bingoBoard = getBingoBoard(bingoList, size, {seed: SEED, mode: MODE, lang: LANG});
 
 	//populate the actual table on the page
 	for (i=1; i<=25; i++) {
