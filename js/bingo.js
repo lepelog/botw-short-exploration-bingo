@@ -137,6 +137,12 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal"}) {
 	//populate the bingo board in the array
 	for (i=1; i<=25; i++) {
 		var getDifficulty = bingoBoard[i].difficulty - 1; // difficulty of current square
+		// check if difficulty was there before, causing duplication issues (maybe)
+		var prevIndex = bingoBoard.slice(1,i).findIndex(b=>b.difficulty==(getDifficulty+1))+1;
+		console.log(prevIndex);
+		if (prevIndex>0) {
+			console.log(bingoBoard[prevIndex].name);
+		}
 		var RNG = Math.floor(bingoList[getDifficulty].length * Math.random());
 		if (RNG == bingoList[getDifficulty].length) { RNG--; } //fix a miracle
 		var j = 0, synergy = 0, currentObj = null, minSynObj = null;
@@ -144,11 +150,13 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal"}) {
 		do {
 			currentObj = bingoList[getDifficulty][(j+RNG)%bingoList[getDifficulty].length];
 			synergy = checkLine(i, currentObj.types);
-			if (minSynObj == null || synergy < minSynObj.synergy) {
+			if ((minSynObj == null || synergy < minSynObj.synergy)
+				// check for duplicate
+					&& (prevIndex<1 || bingoBoard[prevIndex].name != (currentObj[LANG] || currentObj.name))) {
 			  minSynObj = { synergy: synergy, value: currentObj };
 			}
 			j++;
-		} while ((synergy != 0) && (j<bingoList[getDifficulty].length));
+		} while (minSynObj == null || (synergy != 0) && (j<bingoList[getDifficulty].length));
 
 		bingoBoard[i].types = minSynObj.value.types;
 		bingoBoard[i].name = minSynObj.value[LANG] || minSynObj.value.name;
