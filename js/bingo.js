@@ -271,10 +271,14 @@ var bingo = function(bingoList, size) {
 	  //$('#slot'+i).append("<br/>" + bingoBoard[i].synergy);
 	}
 
-	// populate the bingosync-goals
-	// useful to use a test board for bingosync
-	var bingosync_goals = JSON.stringify(bingoBoard.filter(field => field != null).map(field => ({"name":field.name})));
-	$('#bingosync-goals').text(bingosync_goals);
+	if (EXPLORATION) {
+		$('#bingosync-goals').text("goals are hidden for Exploration bingo");
+	} else {
+		// populate the bingosync-goals
+		// useful to use a test board for bingosync
+		var bingosync_goals = JSON.stringify(bingoBoard.filter(field => field != null).map(field => ({"name":field.name})));
+		$('#bingosync-goals').text(bingosync_goals);
+	}
 
 	return bingoBoard;
 }; // setup
