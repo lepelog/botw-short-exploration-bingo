@@ -747,7 +747,8 @@ var bingoList = [
             "name": "6 Lanayru Koroks",
             "jp": "ラネールの塔エリア コログのミ 6個",
             "types": [
-                "Korok, Lanayru"
+                "Korok",
+                "Lanayru"
             ]
         },
         {
@@ -1732,7 +1733,8 @@ var bingoList = [
             "name": "9 Lanayru Koroks",
             "jp": "ラネールの塔エリア コログのミ 9個",
             "types": [
-                "Korok, Lanayru"
+                "Korok",
+                "Lanayru"
             ]
         },
         {
@@ -2791,7 +2793,8 @@ var bingoList = [
         {
             "name": "12 Lanayru Koroks",
             "types": [
-                "Korok, Lanayru"
+                "Korok",
+                "Lanayru"
             ],
             "jp": "ラネールの塔エリア コログのミ 12個"
         },
@@ -3547,7 +3550,8 @@ var bingoList = [
         {
             "name": "15 Lanayru Koroks",
             "types": [
-                "Korok, Lanayru"
+                "Korok",
+                "Lanayru"
             ],
             "jp": "ラネールの塔エリア コログのミ 15個"
         },
